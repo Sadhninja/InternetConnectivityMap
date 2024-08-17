@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sample Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map {
+      height: 100vh;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <!-- Define the SVG patterns -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="position: absolute; width: 0; height: 0;">
+    <defs>
+      <pattern id="hashedPatternChinaWifi" width="10" height="10" patternUnits="userSpaceOnUse">
+        <path d="M0,0 L10,10 M10,0 L0,10" stroke="#33a02c" stroke-width="2"/>
+      </pattern>
+      <pattern id="hashedPatternForeignSim" width="10" height="10" patternUnits="userSpaceOnUse">
+        <path d="M0,0 L10,10 M10,0 L0,10" stroke="#a67db8" stroke-width="2" transform="rotate(135 5 5)"/>
+      </pattern>
+      <pattern id="hashedPatternSatellite" width="10" height="10" patternUnits="userSpaceOnUse">
+        <path d="M0,0 L10,10 M10,0 L0,10" stroke="#e31a1c" stroke-width="2" transform="rotate(135 5 5)"/>
+      </pattern>
+    </defs>
+  </svg>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
+  <script src="js/checkLogin.js"></script>
+  <script src="js/initMap.js"></script>
+  <script src="js/styles.js"></script>
+  <script src="js/layers.js"></script>
+  <script src="js/controls.js"></script>
+</body>
+</html>
