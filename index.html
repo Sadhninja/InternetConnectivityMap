@@ -3,11 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sample Map</title>
+  <title>Sample Map with Login</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* Basic styling for the login form */
+    #loginForm {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+
+    #loginForm input[type="text"],
+    #loginForm input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    #loginForm button {
+      width: 100%;
+      padding: 10px;
+      background-color: #33a02c;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #loginForm button:hover {
+      background-color: #2a8b23;
+    }
+
+    #map {
+      display: none; /* Hide the map initially */
+    }
+  </style>
 </head>
 <body>
+  <div id="loginForm">
+    <h2>Login</h2>
+    <form id="login">
+      <input type="text" id="username" name="username" placeholder="Username" required>
+      <input type="password" id="password" name="password" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
+  </div>
+
   <div id="map"></div>
 
   <!-- Define the SVG patterns -->
@@ -31,5 +81,25 @@
   <script src="js/styles.js"></script>
   <script src="js/layers.js"></script>
   <script src="js/controls.js"></script>
+
+  <script>
+    // Basic login validation
+    document.getElementById('login').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      // Placeholder login credentials
+      const validUsername = 'user';
+      const validPassword = 'password';
+
+      if (username === validUsername && password === validPassword) {
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('map').style.display = 'block'; // Show the map after login
+      } else {
+        alert('Invalid username or password');
+      }
+    });
+  </script>
 </body>
 </html>
