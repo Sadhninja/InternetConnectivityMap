@@ -5,47 +5,85 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sample Map</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <!-- Leaflet Locate Control CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.72.0/L.Control.Locate.min.css" />
   <link rel="stylesheet" href="css/styles.css">
+  
   <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #74ebd5, #acb6e5);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+    }
+
     #map {
       height: 100vh;
       width: 100%;
-      display: none; /* Initially hide the map */
+      display: none;
     }
+
     #login-form {
-      position: absolute;
-      top: 20%;
-      left: 50%;
-      transform: translate(-50%, -50%);
       background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      z-index: 1000; /* Ensure it appears above the map */
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 100%;
+      max-width: 350px;
     }
+
+    #login-form h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #333;
+    }
+
     #login-form input {
       display: block;
       width: 100%;
-      margin-bottom: 10px;
-      padding: 8px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
+      padding: 15px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 8px;
+      background: #f1f1f1;
+      font-size: 16px;
+      box-sizing: border-box;
     }
+
     #login-form button {
       width: 100%;
-      padding: 10px;
-      background-color: #007bff;
+      padding: 15px;
+      background-color: #3498db;
       border: none;
       color: white;
-      border-radius: 4px;
+      font-size: 16px;
+      border-radius: 8px;
       cursor: pointer;
+      transition: background-color 0.3s ease;
     }
+
     #login-form button:hover {
-      background-color: #0056b3;
+      background-color: #2980b9;
+    }
+
+    @media (max-width: 600px) {
+      #login-form {
+        padding: 20px;
+      }
+
+      #login-form input,
+      #login-form button {
+        padding: 12px;
+      }
     }
   </style>
 </head>
 <body>
+
   <div id="login-form">
     <h2>Login</h2>
     <form id="loginForm">
@@ -54,47 +92,52 @@
       <button type="submit">Login</button>
     </form>
   </div>
-
+  
+  <div id="map-title">Internet Connectivity Map - Myanmar</div>
   <div id="map"></div>
-
+ 
   <!-- Define the SVG patterns -->
   <svg xmlns="http://www.w3.org/2000/svg" style="position: absolute; width: 0; height: 0;">
     <defs>
       <pattern id="hashedPatternChinaWifi" width="10" height="10" patternUnits="userSpaceOnUse">
-        <path d="M0,0 L10,10 M10,0 L0,10" stroke="#33a02c" stroke-width="2"/>
+        <path d="M0,0 L10,10 M10,0 L0,10" stroke="#1e8a15" stroke-width="2"/>
       </pattern>
       <pattern id="hashedPatternForeignSim" width="10" height="10" patternUnits="userSpaceOnUse">
-        <path d="M0,0 L10,10 M10,0 L0,10" stroke="#a67db8" stroke-width="2" transform="rotate(135 5 5)"/>
+        <path d="M0,0 L10,10 M10,0 L0,10" stroke="#f0aa07" stroke-width="2" transform="rotate(135 5 5)"/>
       </pattern>
       <pattern id="hashedPatternSatellite" width="10" height="10" patternUnits="userSpaceOnUse">
-        <path d="M0,0 L10,10 M10,0 L0,10" stroke="#e31a1c" stroke-width="2" transform="rotate(135 5 5)"/>
+        <path d="M0,0 L10,10 M10,0 L0,10" stroke="#0d0dd4" stroke-width="2" transform="rotate(135 5 5)"/>
       </pattern>
     </defs>
   </svg>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
+   <!-- Leaflet Locate Control JS -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.72.0/L.Control.Locate.min.js"></script>
+   <script src="https://unpkg.com/leaflet-geotiff"></script>
+   <script src="https://unpkg.com/leaflet-geotiff/leaflet-geotiff.plotty.js"></script>
+
+
+
   <script src="js/map.js"></script>
   <script>
-    // Handle login form submission
     document.getElementById('loginForm').addEventListener('submit', function(event) {
       event.preventDefault(); // Prevent form from submitting normally
 
       var username = document.getElementById('username').value;
       var password = document.getElementById('password').value;
 
-      // Perform basic validation
-      if (username && password) {
+      if (username === 'user' && password === 'password') {
         alert('Login successful!');
         document.getElementById('login-form').style.display = 'none'; // Hide the login form
         document.getElementById('map').style.display = 'block'; // Show the map
 
-        // Trigger map visibility change
         if (typeof map !== 'undefined') {
-          map.invalidateSize(); // Ensure the map adjusts its size correctly
+          map.invalidateSize();
         }
       } else {
-        alert('Please enter both username and password.');
+        alert('Invalid username or password. Please try again.');
       }
     });
   </script>
