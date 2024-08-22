@@ -9,79 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.72.0/L.Control.Locate.min.css" />
   <link rel="stylesheet" href="css/styles.css">
   
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(135deg, #74ebd5, #acb6e5);
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0;
-    }
-
-    #map {
-      height: 100vh;
-      width: 100%;
-      display: none;
-    }
-
-    #login-form {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-      text-align: center;
-      width: 100%;
-      max-width: 350px;
-    }
-
-    #login-form h2 {
-      margin-bottom: 20px;
-      font-size: 24px;
-      color: #333;
-    }
-
-    #login-form input {
-      display: block;
-      width: 100%;
-      padding: 15px;
-      margin-bottom: 20px;
-      border: none;
-      border-radius: 8px;
-      background: #f1f1f1;
-      font-size: 16px;
-      box-sizing: border-box;
-    }
-
-    #login-form button {
-      width: 100%;
-      padding: 15px;
-      background-color: #3498db;
-      border: none;
-      color: white;
-      font-size: 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    #login-form button:hover {
-      background-color: #2980b9;
-    }
-
-    @media (max-width: 600px) {
-      #login-form {
-        padding: 20px;
-      }
-
-      #login-form input,
-      #login-form button {
-        padding: 12px;
-      }
-    }
-  </style>
-</head>
+ </head>
 <body>
 
   <div id="login-form">
@@ -89,8 +17,9 @@
     <form id="loginForm">
       <input type="text" id="username" placeholder="Username" required>
       <input type="password" id="password" placeholder="Password" required>
-      <button type="submit">Login</button>
+      <button type="button" onclick="submitForm()">Login</button>
     </form>
+    <div id="result"></div>
   </div>
   
   <div id="map-title">Internet Connectivity Map - Myanmar</div>
@@ -118,28 +47,7 @@
    <script src="https://unpkg.com/leaflet-geotiff"></script>
    <script src="https://unpkg.com/leaflet-geotiff/leaflet-geotiff.plotty.js"></script>
 
-
-
   <script src="js/map.js"></script>
-  <script>
-    document.getElementById('loginForm').addEventListener('submit', function(event) {
-      event.preventDefault(); // Prevent form from submitting normally
-
-      var username = document.getElementById('username').value;
-      var password = document.getElementById('password').value;
-
-      if (username === 'user' && password === 'password') {
-        alert('Login successful!');
-        document.getElementById('login-form').style.display = 'none'; // Hide the login form
-        document.getElementById('map').style.display = 'block'; // Show the map
-
-        if (typeof map !== 'undefined') {
-          map.invalidateSize();
-        }
-      } else {
-        alert('Invalid username or password. Please try again.');
-      }
-    });
-  </script>
+  <script src="js/login.js"></script>
 </body>
 </html>
