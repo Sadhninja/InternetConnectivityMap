@@ -1,11 +1,12 @@
 
 // Initialize the map
-var map = L.map('map').setView([21.9162, 95.9560], 7);
+var map = L.map('map').setView([20.947687, 95.967537], 6); 
+
 
 // Add a tile layer
 var tileLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
     attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
-    maxZoom: 13
+    maxZoom: 20
 }).addTo(map);
 
 // Add PNG image overlay
@@ -82,21 +83,24 @@ function style_alternative(feature) {
     switch (feature.properties.Alternativ) {
         case 'China wifi cable':
             return {
-                fillColor: 'url(#hashedPatternChinaWifi)',
+                //fillColor: 'url(#hashedPatternChinaWifi)',
+                fillColor: '#6A3E98',
                 color: '#1e8a15',
                 weight: 2,
                 fillOpacity: 0.5
             };
         case 'Foreign SIM':
             return {
-                fillColor: 'url(#hashedPatternForeignSim)',
+                //fillColor: 'url(#hashedPatternForeignSim)',
+                fillColor: '#8B1DFF',
                 color: '#f0aa07',
                 weight: 2,
                 fillOpacity: 0.5
             };
         case 'Satellite Internet':
             return {
-                fillColor: 'url(#hashedPatternSatellite)',
+                //fillColor: 'url(#hashedPatternSatellite)',
+                fillColor: '#BA77FF',
                 color: '#0d0dd4',
                 weight: 2,
                 fillOpacity: 0.5
@@ -115,31 +119,31 @@ function style_Internet_connectivity(feature) {
     switch (feature.properties.status) {
         case 'Activated Area':
             return {
-                fillColor: "#33a02c",
+                fillColor: "#0D7E3F",
                 fillOpacity: 0.5,
                 color: 'transparent'
             };
         case 'Do Not Know':
             return {
-                fillColor: "#8a7b89",
+                fillColor: "#FB8111",
                 fillOpacity: 0.5,
                 color: 'transparent'
             };
         case 'Internet Blackout':
             return {
-                fillColor: "#735859",
+                fillColor: "#666666",
                 fillOpacity: 0.5,
                 color: 'transparent'
             };
         case 'Mobile Phone & Internet Blackout':
             return {
-                fillColor: "#000000",
+                fillColor: "#222222",
                 fillOpacity: 0.5,
                 color: 'transparent'
             };
         case 'Only 2G Available':
             return {
-                fillColor: "#3c5c66",
+                fillColor: "#FBC011",
                 fillOpacity: 0.5,
                 color: 'transparent'
             };
@@ -313,108 +317,123 @@ function geolocate() {
         alert("Geolocation is not supported by this browser.");
     }
 }
-
 // Create a custom control to extend L.Control.Layers
 L.Control.LayersCustom = L.Control.Layers.extend({
     _addItem: function (obj) {
         var label = document.createElement('label'),
-            input,
-            checked = this._map.hasLayer(obj.layer),
             container;
 
-        if (obj.overlay) {
-            input = document.createElement('input');
-            input.type = 'checkbox';
-            input.className = 'leaflet-control-layers-selector';
-            input.defaultChecked = checked;
-            if (obj.name === 'Resistance Control Area') {
-                input.checked = false; // Ensure this layer is unchecked by default
-            }
-        } else {
-            input = this._createRadioElement('leaflet-base-layers', checked);
-        }
-
-        this._layerControlInputs.push(input);
-        input.layerId = L.stamp(obj.layer);
-
-        L.DomEvent.on(input, 'click', this._onInputClick, this);
-
+        // Create a span for the layer name
         var name = document.createElement('span');
         name.innerHTML = ' ' + obj.name;
 
         // Create the legend square
         var legend = document.createElement('span');
         legend.style.display = 'inline-block';
-        legend.style.width = '12px';
-        legend.style.height = '12px';
-        legend.style.marginRight = '8px';
+        legend.style.width = '16px'; // Adjust size if needed
+        legend.style.height = '16px'; // Adjust size if needed
+        legend.style.marginRight = '4px'; // Space between legend and name
+        legend.style.border = '1px solid #ddd'; // Optional border
+        legend.style.backgroundColor = 'transparent'; // Default color
+        legend.style.transition = 'background-color 0.3s'; // Smooth color transition
 
         // Apply styles based on layer type
         switch (obj.name) {
-            case 'Activated Area':
-                legend.style.backgroundColor = '#33a02c';
+            case 'Active Areas':
+                legend.style.backgroundColor = '#0D7E3F';
                 break;
-            case 'Do Not Know':
-                legend.style.backgroundColor = '#8a7b89';
+            case 'Unreported Areas':
+                legend.style.backgroundColor = '#FB8111';
                 break;
             case 'Internet Blackout':
-                legend.style.backgroundColor = '#735859';
+                legend.style.backgroundColor = '#666666';
                 break;
-            case 'Mobile Phone & Internet Blackout':
-                legend.style.backgroundColor = '#000000';
+            case 'Mobile & Internet Blackout Areas':
+                legend.style.backgroundColor = '#222222';
                 break;
-            case 'Only 2G Available':
-                legend.style.backgroundColor = '#3c5c66';
+            case 'Intermittent Service Areas':
+                legend.style.backgroundColor = '#FBC011';
                 break;
             case 'Resistance Control Area':
                 legend.style.border = '2px solid red';
                 legend.style.backgroundColor = 'transparent';
                 break;
-            case 'China wifi cable':
+            case 'Non-Domestic WIFI':
                 legend.style.backgroundImage = 'url(#hashedPatternChinaWifi)';
                 break;
-            case 'Foreign SIM':
+            case 'Non-Domestic Mobile':
                 legend.style.backgroundImage = 'url(#hashedPatternForeignSim)';
                 break;
-            case 'Satellite Internet':
+            case 'Localized Satellite Internet':
                 legend.style.backgroundImage = 'url(#hashedPatternSatellite)';
                 break;
             default:
                 legend.style.backgroundColor = 'transparent';
         }
 
-        label.appendChild(input);
+        label.style.display = 'block';
+        label.style.marginBottom = '8px'; // Space between layers
+        label.style.padding = '4px'; // Padding around the label
+        label.style.cursor = 'pointer'; // Pointer cursor on hover
+        label.style.borderRadius = '8px'; // Rounded corners for all labels
+
         label.appendChild(legend);
         label.appendChild(name);
 
         var container = obj.overlay ? this._overlaysList : this._baseLayersList;
         container.appendChild(label);
 
+        // Add click event to toggle layer visibility
+        L.DomEvent.on(label, 'click', function () {
+            var layer = obj.layer;
+            if (this._map.hasLayer(layer)) {
+                this._map.removeLayer(layer);
+                label.style.backgroundColor = 'transparent'; // Remove highlight
+            } else {
+                this._map.addLayer(layer);
+                label.style.backgroundColor = '#E8E8E8'; // Highlight
+                label.style.borderRadius = '8px'; // Apply rounded corners to highlighted label
+            }
+        }, this);
+
+        // Set initial highlight state based on whether the layer is already added
+        if (this._map.hasLayer(obj.layer)) {
+            label.style.backgroundColor = '#E8E8E8'; // Highlight
+            label.style.borderRadius = '8px'; // Rounded corners for initially highlighted label
+        } else {
+            label.style.backgroundColor = 'transparent'; // No highlight
+        }
+
         return label;
     }
 });
 
-// Initialize custom layer controls
-var resistanceControl = new L.Control.LayersCustom(null, {
-    "Resistance Control Area": eroControlledLayer
+// Initialize custom layer controls without checkboxes
+
+var projectTitleControl = new L.Control.LayersCustom(null, {
 }, { collapsed: false }).addTo(map);
-resistanceControl.getContainer().classList.add('resistance-control');
+projectTitleControl.getContainer().classList.add('project-title');
 
 var internetConnectivityControl = new L.Control.LayersCustom(null, {
-    "Activated Area": activatedAreaLayer,
-    "Do Not Know": doNotKnowLayer,
+    "Active Areas": activatedAreaLayer,
+    "Unreported Areas": doNotKnowLayer,
     "Internet Blackout": internetBlackoutLayer,
-    "Mobile Phone & Internet Blackout": mobilePhoneAndInternetBlackoutLayer,
-    "Only 2G Available": only2GAvailableLayer
+    "Mobile & Internet Blackout Areas": mobilePhoneAndInternetBlackoutLayer,
+    "Intermittent Service Areas": only2GAvailableLayer
 }, { collapsed: false }).addTo(map);
 internetConnectivityControl.getContainer().classList.add('internet-connectivity-control');
 
 var alternativeInternetControl = new L.Control.LayersCustom(null, {
-    "China wifi cable": chinaWifiCableLayer,
-    "Foreign SIM": foreignSimLayer,
-    "Satellite Internet": satelliteInternetLayer
+    "Non-Domestic WIFI": chinaWifiCableLayer,
+    "Non-Domestic Mobile": foreignSimLayer,
+    "Localized Satellite Internet": satelliteInternetLayer
 }, { collapsed: false }).addTo(map);
 alternativeInternetControl.getContainer().classList.add('alternative-internet-control');
+
+var resistanceControl = new L.Control.LayersCustom(null, {
+    "Resistance-controlled areas": eroControlledLayer
+}, { collapsed: false }).addTo(map);
+resistanceControl.getContainer().classList.add('resistance-control');
 
 // Add the population density layer control using the default Leaflet control
 var populationDensityControl = new L.Control.LayersCustom(null, {

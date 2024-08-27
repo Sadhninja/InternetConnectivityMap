@@ -1,58 +1,107 @@
+/* Work Sans base styles */
+.work-sans-normal {
+  font-family: "Work Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+}
+
+/* Optional: You can add different weights if needed */
+.work-sans-bold {
+  font-family: "Work Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+}
 
 #map {
   height: 100vh;
   width: 100%;
 }
 
+/* Layer Control Styles */
+.leaflet-control-layers label {
+  font-family: 'Work Sans', sans-serif;
+  font-size: 14px;
+}
+
 /* Base styles for the layer controls */
 .leaflet-control-layers {
-background-color: #fff;
-border-radius: 8px;
-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-font-family: Arial, sans-serif;
-max-width: 300px;
-overflow: hidden;
-width: 300px; /* Fixed width */
-height: 400px; /* Fixed height */
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  max-width: 300px;
+  overflow: hidden;
+  width: 300px; /* Fixed width */
+  height: 400px; /* Fixed height */
 }
 
 /* Force all controls to have the same height and width */
 .resistance-control,
 .internet-connectivity-control,
 .alternative-internet-control, 
-.additional-layers-control{
-width: 100%; /* Ensure the width is consistent */
-height: 100%; /* Ensure the height is consistent */
+.additional-layers-control {
+  width: 100%; /* Ensure the width is consistent */
+  height: 100%; /* Ensure the height is consistent */
 }
 
 /* Resistance Control Area */
 .resistance-control::before {
-content: 'Resistance Control Area';
-display: block;
-font-weight: bold;
-font-size: 1.2em;
-padding: 10px;
-color: #007BFF;
+  content: 'Resistance Control Area';
+  display: block;
+  font-weight: bold;
+  font-size: 1.2em;
+  padding: 10px;
+  color: #111111;
 }
 
 /* Internet Connectivity */
 .internet-connectivity-control::before {
-content: 'Internet Connectivity';
-display: block;
-font-weight: bold;
-font-size: 1.2em;
-padding: 10px;
-color: #007BFF;
+  content: 'Domestic Network Availability';
+  display: block;
+  font-weight: bold;
+  font-size: 1.2em;
+  padding: 10px;
+  color: #111111;
 }
 
 /* Alternative Internet */
 .alternative-internet-control::before {
-content: 'Alternative Internet';
-display: block;
-font-weight: bold;
-font-size: 1.2em;
-padding: 10px;
-color: #007BFF;
+  content: 'Reported Cases of Alternative Network';
+  display: block;
+  font-weight: bold;
+  font-size: 1.2em;
+  padding: 10px;
+  color: #111111;
+}
+
+/* Additional Styles for Project Title Control */
+.project-title {
+  background-color: #fff; /* Optional background color */
+  border: 1px solid #ddd; /* Optional border */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Optional shadow */
+  max-width: 300px; /* Maximum width */
+  padding: 0; /* Remove padding to fit content */
+  font-family: 'Work Sans', sans-serif; /* Ensure consistent font */
+  display: inline-block; /* Ensure it only takes up as much space as needed */
+  height: auto; /* Allow height to fit the content */
+}
+
+/* Adjust the title */
+.project-title::before {
+  content: 'Internet Connectivity Map - Myanmar';
+  display: block;
+  font-weight: bold;
+  font-size: 1.2em;
+  padding: 10px; /* Padding inside the title area */
+  color: #111111;
+  text-align: left; /* Center align text */
+}
+
+/* Remove excess margins and padding for list items inside the control */
+.project-title .leaflet-control-layers-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 /* Additional Layers Control */
@@ -62,65 +111,65 @@ color: #007BFF;
   font-weight: bold;
   font-size: 1.2em;
   padding: 10px;
-  color: #007BFF;
+  color: #111111;
 }
 
 /* Custom styles for checkboxes and labels */
 .leaflet-control-layers-overlays label {
-display: flex;
-align-items: center;
-padding: 8px;
-cursor: pointer;
-transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .leaflet-control-layers-overlays input {
-margin-right: 10px;
-transform: scale(1.2);
+  margin-right: 10px;
+  transform: scale(1.2);
 }
 
 .leaflet-control-layers-overlays label:hover {
-background-color: #f0f0f0;
+  background-color: #f0f0f0;
 }
 
 /* Make controls responsive on smaller screens */
 @media (max-width: 768px) {
-.leaflet-control-layers {
-  max-width: 100%;
-  font-size: 0.9em;
-  height: auto; /* Allow height to adjust on smaller screens */
-}
+  .leaflet-control-layers {
+    max-width: 100%;
+    font-size: 0.9em;
+    height: auto; /* Allow height to adjust on smaller screens */
+  }
 
-/* Adjust for the individual control boxes */
-.resistance-control,
-.internet-connectivity-control,
-.alternative-internet-control {
-  height: auto;
-}
+  /* Adjust for the individual control boxes */
+  .resistance-control,
+  .internet-connectivity-control,
+  .alternative-internet-control {
+    height: auto;
+  }
 }
 
 /* Adjust the container of controls to make them more visually appealing */
 .leaflet-control-layers-expanded {
-padding: 10px;
-border-radius: 8px;
+  padding: 10px;
+  border-radius: 8px;
 }
 
 .leaflet-control-layers-list {
-margin: 0;
-padding: 0;
-list-style: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .leaflet-control-layers-separator {
-margin: 10px 0;
-border-bottom: 1px solid #ccc;
+  margin: 10px 0;
+  border-bottom: 1px solid #ccc;
 }
 
 /* Adjustments for touch devices */
 @media (hover: none) {
-.leaflet-control-layers-overlays label {
-  background-color: transparent;
-}
+  .leaflet-control-layers-overlays label {
+    background-color: transparent;
+  }
 }
 
 .population-density-legend {
@@ -130,6 +179,7 @@ border-bottom: 1px solid #ccc;
   line-height: 18px;
   color: #555;
 }
+
 .population-density-legend i {
   width: 18px;
   height: 18px;
@@ -154,7 +204,7 @@ border-bottom: 1px solid #ccc;
 }
 
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Work Sans', sans-serif;
   background: linear-gradient(135deg, #74ebd5, #acb6e5);
   height: 100vh;
   display: flex;
@@ -188,53 +238,26 @@ body {
 #login-form input {
   display: block;
   width: 100%;
-  padding: 15px;
-  margin-bottom: 20px;
-  border: none;
-  border-radius: 8px;
-  background: #f1f1f1;
+  margin-bottom: 15px;
+  padding: 10px;
   font-size: 16px;
-  box-sizing: border-box;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 #login-form button {
   width: 100%;
-  padding: 15px;
-  background-color: #3498db;
-  border: none;
-  color: white;
+  padding: 12px;
   font-size: 16px;
   border-radius: 8px;
+  border: none;
+  background-color: #007BFF;
+  color: white;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s;
 }
 
 #login-form button:hover {
-  background-color: #2980b9;
+  background-color: #0056b3;
 }
-
-@media (max-width: 600px) {
-  #login-form {
-    padding: 20px;
-  }
-
-  #login-form input,
-  #login-form button {
-    padding: 12px;
-  }
-}
-
-    #loading-spinner {
-        border: 4px solid #f3f3f3; /* Light grey */
-        border-top: 4px solid #3498db; /* Blue */
-        border-radius: 50%;
-        width: 30px;
-        height: 30px;
-        animation: spin 1s linear infinite;
-        margin: 10px auto;
-    }
-
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
