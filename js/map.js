@@ -604,11 +604,11 @@ var resistanceControl = new L.Control.LayersCustom(null, {
     "Resistance controls growing territory": growingResistanceTerritoryLayer,
     "Stable junta control": stableJuntaControlLayer,
     "Strong resistance control & local administration": strongResistanceControlLayer
-}, { collapsed: false }).addTo(map);
+}, { collapsed: false, position: 'topleft' }).addTo(map);
 resistanceControl.getContainer().classList.add('resistance-control');
 
 // Add the population density layer control using the default Leaflet control
 var populationDensityControl = new L.Control.LayersCustom(null, {
     "Population Density (2020)": populationDensityLayer
-}, { collapsed: false,position: 'topleft' }).addTo(map);
+}, { collapsed: false, }).addTo(map);
 populationDensityControl.getContainer().classList.add('additional-layers-control');
