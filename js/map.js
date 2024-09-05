@@ -56,23 +56,79 @@ function style_mmr_admin0(feature) {
     };
 }
 
+// function style_ero_controlled(feature) {
+//     if (feature.properties.ero === 'y') {
+//         return {
+//             color: "Red",
+//             weight: 1,
+//             fillOpacity: 0.01,
+//         };
+//     } else {
+//         return {
+//             opacity: 0,
+//             fillOpacity: 0,
+//         };
+//     }
+// }
+
+////////////////
 function style_ero_controlled(feature) {
-    if (feature.properties.ero === 'y') {
-        return {
-            color: "Red",
-            weight: 1,
-            fillOpacity: 0.01,
-        };
-    } else {
-        return {
-            opacity: 0,
-            fillOpacity: 0,
-        };
+    switch (feature.properties['2024_cs']) {
+        case 'Full resistance control & local administration -- whole township':
+            return {
+                color: "Red",
+                weight: 1,
+                fillOpacity: 0.01,
+            };
+        case 'Junta control receding; resistance defending increasing territories & asserting local administration':
+            return {
+                color: "Red",
+                weight: 1,
+                fillOpacity: 0.01,
+            };
+        case 'Junta dependent on local proxy militias for control':
+            return {
+                color: "Red",
+                weight: 1,
+                fillOpacity: 0.01,
+            };
+        case 'Junta forces under regular attack from resistance forces; administration functions remain weak':
+            return {
+                color: "Red",
+                weight: 1,
+                fillOpacity: 0.01,
+            };
+        case 'Limited junta movement, dependent on ceasefires':
+            return {
+                color: "Red",
+                weight: 1,
+                fillOpacity: 0.01,
+            };
+        case 'Resistance controls growing territory but still cannot consolidate fuller control*':
+            return {
+                color: "Red",
+                weight: 1,
+                fillOpacity: 0.01,
+            };
+        case 'Stable junta control':
+            return {
+                color: "Red",
+                weight: 1,
+                fillOpacity: 0.01,
+            };
+        case 'Strong resistance control & local administration -- 90%+ of township':
+            return {
+                color: "Red",
+                weight: 1,
+                fillOpacity: 0.01,
+            };
     }
 }
 
+////////////////////
+
 function style_alternative(feature) {
-    if (!feature.properties.Alternativ) {
+    if (!feature.properties['reported c']) {
         return {
             fillColor: '#bb25d9',
             color: '#232323',
@@ -80,180 +136,196 @@ function style_alternative(feature) {
             fillOpacity: 0.5
         };
     }
-    switch (feature.properties.Alternativ) {
-        case 'China wifi cable':
+    switch (feature.properties ['reported c']) {
+        case 'Non-Domestic WIFI':
             return {
                 //fillColor: 'url(#hashedPatternChinaWifi)',
                 fillColor: '#6A3E98',
                 color: '#1e8a15',
                 weight: 2,
-                fillOpacity: 0.5
+                fillOpacity: 0.9
             };
-        case 'Foreign SIM':
+        case 'Non-Domestic Mobile':
             return {
                 //fillColor: 'url(#hashedPatternForeignSim)',
                 fillColor: '#8B1DFF',
                 color: '#f0aa07',
                 weight: 2,
-                fillOpacity: 0.5
+                fillOpacity: 0.9
             };
-        case 'Satellite Internet':
+        case 'Localized Satellite Internet':
             return {
                 //fillColor: 'url(#hashedPatternSatellite)',
                 fillColor: '#BA77FF',
                 color: '#0d0dd4',
                 weight: 2,
-                fillOpacity: 0.5
+                fillOpacity: 0.9
             };
         default:
             return {
                 fillColor: '#bb25d9',
                 color: '#232323',
                 weight: 1,
-                fillOpacity: 0.5
+                fillOpacity: 0.9
             };
     }
 }
 
 function style_Internet_connectivity(feature) {
-    switch (feature.properties.status) {
-        case 'Activated Area':
+    switch (feature.properties['domestic n']) {
+        case 'Active Areas':
             return {
                 fillColor: "#0D7E3F",
-                fillOpacity: 0.5,
+                fillOpacity: 0.6,
                 color: 'transparent'
             };
-        case 'Do Not Know':
+        case 'Unreported Areas':
             return {
-                fillColor: "#FB8111",
-                fillOpacity: 0.5,
+                fillColor: "#EB7100",
+                fillOpacity: 0.6,
                 color: 'transparent'
             };
-        case 'Internet Blackout':
+        case 'Internet Blackout Areas':
             return {
                 fillColor: "#666666",
-                fillOpacity: 0.5,
+                fillOpacity: 0.6,
                 color: 'transparent'
             };
-        case 'Mobile Phone & Internet Blackout':
+        case 'Mobile & Internet Blackout Areas':
             return {
                 fillColor: "#222222",
-                fillOpacity: 0.5,
+                fillOpacity: 0.6,
                 color: 'transparent'
             };
-        case 'Only 2G Available':
+        case 'Intermittent Service Areas':
             return {
                 fillColor: "#FBC011",
-                fillOpacity: 0.5,
+                fillOpacity: 0.6,
                 color: 'transparent'
             };
     }
 }
+
 // Function to bind pop-ups to features
 function onEachFeature(feature, layer) {
     if (feature.properties) {
-        var popupContent = `
-            <table style="width: 100%; border-collapse: collapse;">
+        var popupContent = 
+            `<table style="width: 100%; border-collapse: collapse;">
                 <tr>
                     <td style="border: 1px solid #ddd; padding: 8px;"><strong>Internet Status:</strong></td>
-                    <td style="border: 1px solid #ddd; padding: 8px;">${feature.properties.status || 'N/A'}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${feature.properties['domestic n'] || 'N/A'}</td>
                 </tr>
                 <tr>
                     <td style="border: 1px solid #ddd; padding: 8px;"><strong>State & Region:</strong></td>
-                    <td style="border: 1px solid #ddd; padding: 8px;">${feature.properties.ST || 'N/A'}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${feature.properties['st'] || 'N/A'}</td>
                 </tr>
                 <tr>
                     <td style="border: 1px solid #ddd; padding: 8px;"><strong>District:</strong></td>
-                    <td style="border: 1px solid #ddd; padding: 8px;">${feature.properties.DT || 'N/A'}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${feature.properties['dt'] || 'N/A'}</td>
                 </tr>
                 <tr>
                     <td style="border: 1px solid #ddd; padding: 8px;"><strong>Township:</strong></td>
-                    <td style="border: 1px solid #ddd; padding: 8px;">${feature.properties.TS || 'N/A'}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${feature.properties['ts'] || 'N/A'}</td>
                 </tr>
-            </table>
-        `;
+                <tr>
+                    <td style="border: 1px solid #ddd; padding: 8px;"><strong>Controlled:</strong></td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${feature.properties['2024_cs'] || 'N/A'}</td>
+                </tr>
+            </table>`;
+
+        // Bind the pop-up to the layer
         layer.bindPopup(popupContent);
+
+        // Bring the layer to the front when the pop-up is opened
+        layer.on('popupopen', function () {
+            layer.bringToFront();
+        });
     }
 }
 
 
 // Create layer groups for each sub-category
-var activatedAreaLayer = new L.GeoJSON.AJAX("geojson/internet_connectivity.geojson", {
+var activatedAreaLayer = new L.GeoJSON.AJAX("https://ircwebmap.webgis1.com/geoserver/InternetStatus/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=InternetStatus%3ADomesticNetworkAvailability_v1&outputFormat=application%2Fjson", {
     style: function (feature) {
-        if (feature.properties.status === 'Activated Area') return style_Internet_connectivity(feature);
+        //if (feature.properties.status === 'Activated Area') return style_Internet_connectivity(feature);
+        if (feature.properties['domestic n'] === 'Active Areas') return style_Internet_connectivity(feature);
+
     },
     filter: function (feature) {
-        return feature.properties.status === 'Activated Area';
+        return feature.properties ['domestic n'] === 'Active Areas';
     },
     onEachFeature: onEachFeature
 });
 
-var doNotKnowLayer = new L.GeoJSON.AJAX("geojson/internet_connectivity.geojson", {
+var doNotKnowLayer = new L.GeoJSON.AJAX("https://ircwebmap.webgis1.com/geoserver/InternetStatus/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=InternetStatus%3ADomesticNetworkAvailability_v1&outputFormat=application%2Fjson", {
     style: function (feature) {
-        if (feature.properties.status === 'Do Not Know') return style_Internet_connectivity(feature);
+        if (feature.properties['domestic n'] === 'Unreported Areas') return style_Internet_connectivity(feature);
     },
     filter: function (feature) {
-        return feature.properties.status === 'Do Not Know';
+        return feature.properties ['domestic n'] === 'Unreported Areas';
     },
     onEachFeature: onEachFeature
 });
 
-var internetBlackoutLayer = new L.GeoJSON.AJAX("geojson/internet_connectivity.geojson", {
+var internetBlackoutLayer = new L.GeoJSON.AJAX("https://ircwebmap.webgis1.com/geoserver/InternetStatus/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=InternetStatus%3ADomesticNetworkAvailability_v1&outputFormat=application%2Fjson", {
     style: function (feature) {
-        if (feature.properties.status === 'Internet Blackout') return style_Internet_connectivity(feature);
+        if (feature.properties ['domestic n'] === 'Internet Blackout Areas') return style_Internet_connectivity(feature);
     },
     filter: function (feature) {
-        return feature.properties.status === 'Internet Blackout';
+        return feature.properties ['domestic n'] === 'Internet Blackout Areas';
     },
     onEachFeature: onEachFeature
 });
 
-var mobilePhoneAndInternetBlackoutLayer = new L.GeoJSON.AJAX("geojson/internet_connectivity.geojson", {
+var mobilePhoneAndInternetBlackoutLayer = new L.GeoJSON.AJAX("https://ircwebmap.webgis1.com/geoserver/InternetStatus/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=InternetStatus%3ADomesticNetworkAvailability_v1&outputFormat=application%2Fjson", {
     style: function (feature) {
-        if (feature.properties.status === 'Mobile Phone & Internet Blackout') return style_Internet_connectivity(feature);
+        if (feature.properties ['domestic n'] === 'Mobile & Internet Blackout Areas') return style_Internet_connectivity(feature);
     },
     filter: function (feature) {
-        return feature.properties.status === 'Mobile Phone & Internet Blackout';
+        return feature.properties ['domestic n'] === 'Mobile & Internet Blackout Areas';
     },
     onEachFeature: onEachFeature
 });
 
-var only2GAvailableLayer = new L.GeoJSON.AJAX("geojson/internet_connectivity.geojson", {
+var only2GAvailableLayer = new L.GeoJSON.AJAX("https://ircwebmap.webgis1.com/geoserver/InternetStatus/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=InternetStatus%3ADomesticNetworkAvailability_v1&outputFormat=application%2Fjson", {
     style: function (feature) {
-        if (feature.properties.status === 'Only 2G Available') return style_Internet_connectivity(feature);
+        if (feature.properties['domestic n'] === 'Intermittent Service Areas') return style_Internet_connectivity(feature);
     },
     filter: function (feature) {
-        return feature.properties.status === 'Only 2G Available';
+        return feature.properties ['domestic n'] === 'Intermittent Service Areas';
     },
     onEachFeature: onEachFeature
 });
 
 // Create layer groups for alternative internet categories
-var chinaWifiCableLayer = new L.GeoJSON.AJAX("geojson/alternative_1.geojson", {
+var chinaWifiCableLayer = new L.GeoJSON.AJAX("https://ircwebmap.webgis1.com/geoserver/InternetStatus/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=InternetStatus%3Areportedcasesofalternativenetwork&outputFormat=application%2Fjson", {
     style: function (feature) {
-        if (feature.properties.Alternativ === 'China wifi cable') return style_alternative(feature);
+        if (feature.properties ['reported c'] === 'Non-Domestic WIFI') return style_alternative(feature);
     },
     filter: function (feature) {
-        return feature.properties.Alternativ === 'China wifi cable';
-    }
+        return feature.properties ['reported c'] === 'Non-Domestic WIFI';
+    },
+    onEachFeature: onEachFeature
 });
 
-var foreignSimLayer = new L.GeoJSON.AJAX("geojson/alternative_1.geojson", {
+var foreignSimLayer = new L.GeoJSON.AJAX("https://ircwebmap.webgis1.com/geoserver/InternetStatus/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=InternetStatus%3Areportedcasesofalternativenetwork&outputFormat=application%2Fjson", {
     style: function (feature) {
-        if (feature.properties.Alternativ === 'Foreign SIM') return style_alternative(feature);
+        if (feature.properties ['reported c'] === 'Non-Domestic Mobile') return style_alternative(feature);
     },
     filter: function (feature) {
-        return feature.properties.Alternativ === 'Foreign SIM';
-    }
+        return feature.properties ['reported c'] === 'Non-Domestic Mobile';
+    },
+    onEachFeature: onEachFeature
 });
 
-var satelliteInternetLayer = new L.GeoJSON.AJAX("geojson/alternative_1.geojson", {
+var satelliteInternetLayer = new L.GeoJSON.AJAX("https://ircwebmap.webgis1.com/geoserver/InternetStatus/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=InternetStatus%3Areportedcasesofalternativenetwork&outputFormat=application%2Fjson", {
     style: function (feature) {
-        if (feature.properties.Alternativ === 'Satellite Internet') return style_alternative(feature);
+        if (feature.properties ['reported c'] === 'Localized Satellite Internet') return style_alternative(feature);
     },
     filter: function (feature) {
-        return feature.properties.Alternativ === 'Satellite Internet';
-    }
+        return feature.properties ['reported c'] === 'Localized Satellite Internet';
+    },
+    onEachFeature: onEachFeature
 });
 
 
@@ -261,10 +333,93 @@ var satelliteInternetLayer = new L.GeoJSON.AJAX("geojson/alternative_1.geojson",
 var populationDensityLayer = L.layerGroup([populationDensityOverlay]);
 
 // Create layer groups for resistance control area
-var eroControlledLayer = new L.GeoJSON.AJAX("geojson/ero_controlled.geojson", {
-    style: style_ero_controlled,
+
+// var eroControlledLayer = new L.GeoJSON.AJAX("geojson/ero_controlled.geojson", {
+//     style: style_ero_controlled,
+//     onEachFeature: onEachFeature
+// });
+
+var fullResistanceControlLayer = new L.GeoJSON.AJAX("https://ircwebmap.webgis1.com/geoserver/InternetStatus/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=InternetStatus%3Acontrolled&outputFormat=application%2Fjson", {
+    style: function (feature) {
+        if (feature.properties['2024_cs'] === 'Full resistance control & local administration -- whole township') return style_ero_controlled(feature);
+    },
+    filter: function (feature) {
+        return feature.properties['2024_cs'] === 'Full resistance control & local administration -- whole township';
+    },
     onEachFeature: onEachFeature
 });
+
+var juntaRecedingLayer = new L.GeoJSON.AJAX("https://ircwebmap.webgis1.com/geoserver/InternetStatus/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=InternetStatus%3Acontrolled&outputFormat=application%2Fjson", {
+    style: function (feature) {
+        if (feature.properties['2024_cs'] === 'Junta control receding; resistance defending increasing territories & asserting local administration') return style_ero_controlled(feature);
+    },
+    filter: function (feature) {
+        return feature.properties['2024_cs'] === 'Junta control receding; resistance defending increasing territories & asserting local administration';
+    },
+    onEachFeature: onEachFeature
+});
+
+var juntaProxyMilitiaLayer = new L.GeoJSON.AJAX("https://ircwebmap.webgis1.com/geoserver/InternetStatus/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=InternetStatus%3Acontrolled&outputFormat=application%2Fjson", {
+    style: function (feature) {
+        if (feature.properties['2024_cs'] === 'Junta dependent on local proxy militias for control') return style_ero_controlled(feature);
+    },
+    filter: function (feature) {
+        return feature.properties['2024_cs'] === 'Junta dependent on local proxy militias for control';
+    },
+    onEachFeature: onEachFeature
+});
+
+var juntaUnderAttackLayer = new L.GeoJSON.AJAX("https://ircwebmap.webgis1.com/geoserver/InternetStatus/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=InternetStatus%3Acontrolled&outputFormat=application%2Fjson", {
+    style: function (feature) {
+        if (feature.properties['2024_cs'] === 'Junta forces under regular attack from resistance forces; administration functions remain weak') return style_ero_controlled(feature);
+    },
+    filter: function (feature) {
+        return feature.properties['2024_cs'] === 'Junta forces under regular attack from resistance forces; administration functions remain weak';
+    },
+    onEachFeature: onEachFeature
+});
+
+var limitedJuntaMovementLayer = new L.GeoJSON.AJAX("https://ircwebmap.webgis1.com/geoserver/InternetStatus/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=InternetStatus%3Acontrolled&outputFormat=application%2Fjson", {
+    style: function (feature) {
+        if (feature.properties['2024_cs'] === 'Limited junta movement, dependent on ceasefires') return style_ero_controlled(feature);
+    },
+    filter: function (feature) {
+        return feature.properties['2024_cs'] === 'Limited junta movement, dependent on ceasefires';
+    },
+    onEachFeature: onEachFeature
+});
+
+var growingResistanceTerritoryLayer = new L.GeoJSON.AJAX("https://ircwebmap.webgis1.com/geoserver/InternetStatus/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=InternetStatus%3Acontrolled&outputFormat=application%2Fjson", {
+    style: function (feature) {
+        if (feature.properties['2024_cs'] === 'Resistance controls growing territory but still cannot consolidate fuller control*') return style_ero_controlled(feature);
+    },
+    filter: function (feature) {
+        return feature.properties['2024_cs'] === 'Resistance controls growing territory but still cannot consolidate fuller control*';
+    },
+    onEachFeature: onEachFeature
+});
+
+var stableJuntaControlLayer = new L.GeoJSON.AJAX("https://ircwebmap.webgis1.com/geoserver/InternetStatus/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=InternetStatus%3Acontrolled&outputFormat=application%2Fjson", {
+    style: function (feature) {
+        if (feature.properties['2024_cs'] === 'Stable junta control') return style_ero_controlled(feature);
+    },
+    filter: function (feature) {
+        return feature.properties['2024_cs'] === 'Stable junta control';
+    },
+    onEachFeature: onEachFeature
+});
+
+var strongResistanceControlLayer = new L.GeoJSON.AJAX("https://ircwebmap.webgis1.com/geoserver/InternetStatus/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=InternetStatus%3Acontrolled&outputFormat=application%2Fjson", {
+    style: function (feature) {
+        if (feature.properties['2024_cs'] === 'Strong resistance control & local administration -- 90%+ of township') return style_ero_controlled(feature);
+    },
+    filter: function (feature) {
+        return feature.properties['2024_cs'] === 'Strong resistance control & local administration -- 90%+ of township';
+    },
+    onEachFeature: onEachFeature
+});
+
+
 
 // Create base and overlay layer objects
 var baseLayers = {};
@@ -279,9 +434,7 @@ doNotKnowLayer.addTo(map);
 internetBlackoutLayer.addTo(map);
 mobilePhoneAndInternetBlackoutLayer.addTo(map);
 only2GAvailableLayer.addTo(map);
-chinaWifiCableLayer.addTo(map);
-foreignSimLayer.addTo(map);
-satelliteInternetLayer.addTo(map);
+
 
 // Create a geolocation button
 var geolocateButton = L.control({ position: 'topleft' });
@@ -333,7 +486,7 @@ L.Control.LayersCustom = L.Control.Layers.extend({
         legend.style.width = '16px'; // Adjust size if needed
         legend.style.height = '16px'; // Adjust size if needed
         legend.style.marginRight = '4px'; // Space between legend and name
-        legend.style.border = '1px solid #ddd'; // Optional border
+        
         legend.style.backgroundColor = 'transparent'; // Default color
         legend.style.transition = 'background-color 0.3s'; // Smooth color transition
 
@@ -343,9 +496,9 @@ L.Control.LayersCustom = L.Control.Layers.extend({
                 legend.style.backgroundColor = '#0D7E3F';
                 break;
             case 'Unreported Areas':
-                legend.style.backgroundColor = '#FB8111';
+                legend.style.backgroundColor = '#EB7100 ';
                 break;
-            case 'Internet Blackout':
+            case 'Internet Blackout Areas':
                 legend.style.backgroundColor = '#666666';
                 break;
             case 'Mobile & Internet Blackout Areas':
@@ -354,21 +507,28 @@ L.Control.LayersCustom = L.Control.Layers.extend({
             case 'Intermittent Service Areas':
                 legend.style.backgroundColor = '#FBC011';
                 break;
-            case 'Resistance Control Area':
-                legend.style.border = '2px solid red';
-                legend.style.backgroundColor = 'transparent';
-                break;
             case 'Non-Domestic WIFI':
-                legend.style.backgroundImage = 'url(#hashedPatternChinaWifi)';
+                legend.style.backgroundColor = '#6A3E98';
+                legend.style.border = '2px solid 1e8a15';
+                //legend.style.backgroundImage = 'url(#hashedPatternChinaWifi)';
                 break;
             case 'Non-Domestic Mobile':
-                legend.style.backgroundImage = 'url(#hashedPatternForeignSim)';
+                legend.style.backgroundColor = '#8B1DFF';
+                //legend.style.backgroundImage = 'url(#hashedPatternForeignSim)';
                 break;
             case 'Localized Satellite Internet':
-                legend.style.backgroundImage = 'url(#hashedPatternSatellite)';
+                legend.style.backgroundColor = '#BA77FF';
+                //legend.style.backgroundImage = 'url(#hashedPatternSatellite)';
+                break;
+            case 'Population Density (2020)':
+                legend.style.backgroundColor = '#784ca4';
+                //legend.style.backgroundImage = 'url(#hashedPatternSatellite)';
                 break;
             default:
                 legend.style.backgroundColor = 'transparent';
+                legend.style.border = '1px solid #e30e0e'; // Optional border
+                
+
         }
 
         label.style.display = 'block';
@@ -417,7 +577,7 @@ projectTitleControl.getContainer().classList.add('project-title');
 var internetConnectivityControl = new L.Control.LayersCustom(null, {
     "Active Areas": activatedAreaLayer,
     "Unreported Areas": doNotKnowLayer,
-    "Internet Blackout": internetBlackoutLayer,
+    "Internet Blackout Areas": internetBlackoutLayer,
     "Mobile & Internet Blackout Areas": mobilePhoneAndInternetBlackoutLayer,
     "Intermittent Service Areas": only2GAvailableLayer
 }, { collapsed: false }).addTo(map);
@@ -430,13 +590,25 @@ var alternativeInternetControl = new L.Control.LayersCustom(null, {
 }, { collapsed: false }).addTo(map);
 alternativeInternetControl.getContainer().classList.add('alternative-internet-control');
 
+// var resistanceControl = new L.Control.LayersCustom(null, {
+//     "Resistance-controlled areas": eroControlledLayer
+// }, { collapsed: false }).addTo(map);
+// resistanceControl.getContainer().classList.add('resistance-control');
+
 var resistanceControl = new L.Control.LayersCustom(null, {
-    "Resistance-controlled areas": eroControlledLayer
+    "Full resistance control & local administration": fullResistanceControlLayer,
+    "Junta control receding; resistance defending": juntaRecedingLayer,
+    "Junta dependent on local proxy militias": juntaProxyMilitiaLayer,
+    "Junta forces under regular attack from resistance forces": juntaUnderAttackLayer,
+    "Limited junta movement": limitedJuntaMovementLayer,
+    "Resistance controls growing territory": growingResistanceTerritoryLayer,
+    "Stable junta control": stableJuntaControlLayer,
+    "Strong resistance control & local administration": strongResistanceControlLayer
 }, { collapsed: false }).addTo(map);
 resistanceControl.getContainer().classList.add('resistance-control');
 
 // Add the population density layer control using the default Leaflet control
 var populationDensityControl = new L.Control.LayersCustom(null, {
     "Population Density (2020)": populationDensityLayer
-}, { collapsed: false }).addTo(map);
+}, { collapsed: false,position: 'topleft' }).addTo(map);
 populationDensityControl.getContainer().classList.add('additional-layers-control');

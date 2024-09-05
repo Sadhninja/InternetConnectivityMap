@@ -20,7 +20,7 @@
 /* Layer Control Styles */
 .leaflet-control-layers label {
   font-family: 'Work Sans', sans-serif;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /* Base styles for the layer controls */
@@ -30,8 +30,25 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   max-width: 300px;
   overflow: hidden;
-  width: 300px; /* Fixed width */
-  height: 400px; /* Fixed height */
+  width: 500px; /* Fixed width */
+  height: 300px; /* Fixed height */
+}
+
+/* Enable scrollability for the layer controls */
+.leaflet-control-layers {
+  max-height: 300px; /* Set a maximum height for the controls */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding-right: 15px; /* Add space for the scrollbar */
+}
+
+/* Scrollable controls for specific groups */
+.resistance-control,
+.internet-connectivity-control,
+.alternative-internet-control, 
+.additional-layers-control {
+  max-height: 300px; /* Set the height limit */
+  overflow-y: auto; /* Enable vertical scrolling */
+  width: 100%; /* Ensure consistent width */
 }
 
 /* Force all controls to have the same height and width */
@@ -45,7 +62,7 @@
 
 /* Resistance Control Area */
 .resistance-control::before {
-  content: 'Resistance Control Area';
+  content: 'Resistance-controlled Areas';
   display: block;
   font-weight: bold;
   font-size: 1.2em;
@@ -261,3 +278,5 @@ body {
 #login-form button:hover {
   background-color: #0056b3;
 }
+
+
