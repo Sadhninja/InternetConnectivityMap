@@ -28,20 +28,40 @@
   
   <div id="map"></div>
  
-  <!-- Define the SVG patterns -->
   <svg xmlns="http://www.w3.org/2000/svg" style="position: absolute; width: 0; height: 0;">
     <defs>
-      <pattern id="hashedPatternChinaWifi" width="10" height="10" patternUnits="userSpaceOnUse">
-        <path d="M0,0 L10,10 M10,0 L0,10" stroke="#1e8a15" stroke-width="2"/>
+      <!-- Pattern for Active Areas: Diagonal Lines -->
+      <pattern id="hashedPatternActiveAreas" width="10" height="10" patternUnits="userSpaceOnUse">
+        <line x1="0" y1="0" x2="10" y2="10" stroke="#0D7E3F" stroke-width="2"/>
+        <line x1="10" y1="0" x2="0" y2="10" stroke="#0D7E3F" stroke-width="2"/>
       </pattern>
-      <pattern id="hashedPatternForeignSim" width="10" height="10" patternUnits="userSpaceOnUse">
-        <path d="M0,0 L10,10 M10,0 L0,10" stroke="#f0aa07" stroke-width="2" transform="rotate(135 5 5)"/>
+      
+      <!-- Pattern for Unreported Areas: Dots -->
+      <pattern id="hashedPatternUnreportedAreas" width="10" height="10" patternUnits="userSpaceOnUse">
+        <circle cx="5" cy="5" r="2" fill="#EB7100" />
       </pattern>
-      <pattern id="hashedPatternSatellite" width="10" height="10" patternUnits="userSpaceOnUse">
-        <path d="M0,0 L10,10 M10,0 L0,10" stroke="#0d0dd4" stroke-width="2" transform="rotate(135 5 5)"/>
+      
+      <!-- Pattern for Internet Blackout Areas: Grid -->
+      <pattern id="hashedPatternInternetBlackoutAreas" width="8" height="8" patternUnits="userSpaceOnUse">
+        <path d="M 0 0 L 8 0 L 8 8 L 0 8 Z" fill="none" stroke="#666666" stroke-width="1" />
+        <path d="M 4 0 L 4 8 M 0 4 L 8 4" stroke="#666666" stroke-width="1" />
+      </pattern>
+      
+      <!-- Pattern for Mobile & Internet Blackout Areas: Crosshatch -->
+      <pattern id="hashedPatternMobile&InternetBlackoutAreas" width="10" height="10" patternUnits="userSpaceOnUse">
+        <path d="M0,0 L10,10 M10,0 L0,10" stroke="#222222" stroke-width="2"/>
+        <path d="M0,5 L5,0 M5,10 L10,5" stroke="#222222" stroke-width="2"/>
+      </pattern>
+      
+      <!-- Pattern for Intermittent Service Areas: Horizontal Lines -->
+      <pattern id="hashedPatternIntermittentServiceAreas" width="10" height="10" patternUnits="userSpaceOnUse">
+        <line x1="0" y1="2" x2="10" y2="2" stroke="#FBC011" stroke-width="2"/>
+        <line x1="0" y1="8" x2="10" y2="8" stroke="#FBC011" stroke-width="2"/>
       </pattern>
     </defs>
   </svg>
+  
+  
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>

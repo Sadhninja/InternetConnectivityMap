@@ -70,6 +70,7 @@
   color: #111111;
 }
 
+
 /* Internet Connectivity */
 .internet-connectivity-control::before {
   content: 'Domestic Network Availability';
@@ -280,3 +281,15 @@ body {
 }
 
 
+.internet-connectivity-control-left {
+  position: absolute;
+  top: 100px; /* Adjust this value to position below the other control */
+  left: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  width: 300px; /* Adjust width as needed */
+  max-height: 300px; /* Set the height limit */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding-right: 15px; /* Add space for the scrollbar */
+}

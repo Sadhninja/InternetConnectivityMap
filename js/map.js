@@ -206,6 +206,41 @@ function style_Internet_connectivity(feature) {
     }
 }
 
+function style_Internet_connectivity_left(feature) {
+    switch (feature.properties['domestic n']) {
+        case 'Active Areas':
+            return {
+                fillColor: 'url(#hashedPatternActiveAreas)',
+                fillOpacity: 0.6,
+                color: 'transparent'
+            };
+        case 'Unreported Areas':
+            return {
+                fillColor: 'url(#hashedPatternUnreportedAreas)',
+                fillOpacity: 0.6,
+                color: 'transparent'
+            };
+        case 'Internet Blackout Areas':
+            return {
+                fillColor: 'url(#hashedPatternInternetBlackoutAreas)',
+                fillOpacity: 0.6,
+                color: 'transparent'
+            };
+        case 'Mobile & Internet Blackout Areas':
+            return {
+                fillColor: 'url(#hashedPatternMobile&InternetBlackoutAreas)',
+                fillOpacity: 0.6,
+                color: 'transparent'
+            };
+        case 'Intermittent Service Areas':
+            return {
+                fillColor: 'url(#hashedPatternIntermittentServiceAreas)',
+                fillOpacity: 0.6,
+                color: 'transparent'
+            };
+    }
+}
+
 // Function to bind pop-ups to features
 function onEachFeature(feature, layer) {
     if (feature.properties) {
@@ -290,6 +325,61 @@ var mobilePhoneAndInternetBlackoutLayer = new L.GeoJSON.AJAX("https://ircwebmap.
 var only2GAvailableLayer = new L.GeoJSON.AJAX("https://ircwebmap.webgis1.com/geoserver/InternetStatus/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=InternetStatus%3ADomesticNetworkAvailability_v1&outputFormat=application%2Fjson", {
     style: function (feature) {
         if (feature.properties['domestic n'] === 'Intermittent Service Areas') return style_Internet_connectivity(feature);
+    },
+    filter: function (feature) {
+        return feature.properties ['domestic n'] === 'Intermittent Service Areas';
+    },
+    onEachFeature: onEachFeature
+});
+
+
+// Create layer groups for each sub-category
+
+var activatedAreaLayerLeft = new L.GeoJSON.AJAX("https://ircwebmap.webgis1.com/geoserver/InternetStatus/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=InternetStatus%3ADomesticNetworkAvailability_v1&outputFormat=application%2Fjson", {
+    style: function (feature) {
+        //if (feature.properties.status === 'Activated Area') return style_Internet_connectivity(feature);
+        if (feature.properties['domestic n'] === 'Active Areas') return style_Internet_connectivity_left(feature);
+
+    },
+    filter: function (feature) {
+        return feature.properties ['domestic n'] === 'Active Areas';
+    },
+    onEachFeature: onEachFeature
+});
+
+var doNotKnowLayerLeft = new L.GeoJSON.AJAX("https://ircwebmap.webgis1.com/geoserver/InternetStatus/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=InternetStatus%3ADomesticNetworkAvailability_v1&outputFormat=application%2Fjson", {
+    style: function (feature) {
+        if (feature.properties['domestic n'] === 'Unreported Areas') return style_Internet_connectivity_left(feature);
+    },
+    filter: function (feature) {
+        return feature.properties ['domestic n'] === 'Unreported Areas';
+    },
+    onEachFeature: onEachFeature
+});
+
+var internetBlackoutLayerLeft = new L.GeoJSON.AJAX("https://ircwebmap.webgis1.com/geoserver/InternetStatus/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=InternetStatus%3ADomesticNetworkAvailability_v1&outputFormat=application%2Fjson", {
+    style: function (feature) {
+        if (feature.properties ['domestic n'] === 'Internet Blackout Areas') return style_Internet_connectivity_left(feature);
+    },
+    filter: function (feature) {
+        return feature.properties ['domestic n'] === 'Internet Blackout Areas';
+    },
+    onEachFeature: onEachFeature
+});
+
+var mobilePhoneAndInternetBlackoutLayerLeft = new L.GeoJSON.AJAX("https://ircwebmap.webgis1.com/geoserver/InternetStatus/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=InternetStatus%3ADomesticNetworkAvailability_v1&outputFormat=application%2Fjson", {
+    style: function (feature) {
+        if (feature.properties ['domestic n'] === 'Mobile & Internet Blackout Areas') return style_Internet_connectivity_left(feature);
+    },
+    filter: function (feature) {
+        return feature.properties ['domestic n'] === 'Mobile & Internet Blackout Areas';
+    },
+    onEachFeature: onEachFeature
+});
+
+var only2GAvailableLayerLeft = new L.GeoJSON.AJAX("https://ircwebmap.webgis1.com/geoserver/InternetStatus/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=InternetStatus%3ADomesticNetworkAvailability_v1&outputFormat=application%2Fjson", {
+    style: function (feature) {
+        if (feature.properties['domestic n'] === 'Intermittent Service Areas') return style_Internet_connectivity_left(feature);
     },
     filter: function (feature) {
         return feature.properties ['domestic n'] === 'Intermittent Service Areas';
@@ -583,11 +673,20 @@ var internetConnectivityControl = new L.Control.LayersCustom(null, {
 }, { collapsed: false }).addTo(map);
 internetConnectivityControl.getContainer().classList.add('internet-connectivity-control');
 
+var internetConnectivityControl = new L.Control.LayersCustom(null, {
+    "Active Areas": activatedAreaLayerLeft,
+    "Unreported Areas": doNotKnowLayerLeft,
+    "Internet Blackout Areas": internetBlackoutLayerLeft,
+    "Mobile & Internet Blackout Areas": mobilePhoneAndInternetBlackoutLayerLeft,
+    "Intermittent Service Areas": only2GAvailableLayerLeft
+}, { collapsed: false ,position: 'topleft' }).addTo(map);
+internetConnectivityControl.getContainer().classList.add('internet-connectivity-control');
+
 var alternativeInternetControl = new L.Control.LayersCustom(null, {
     "Non-Domestic WIFI": chinaWifiCableLayer,
     "Non-Domestic Mobile": foreignSimLayer,
     "Localized Satellite Internet": satelliteInternetLayer
-}, { collapsed: false }).addTo(map);
+}, { collapsed: false}).addTo(map);
 alternativeInternetControl.getContainer().classList.add('alternative-internet-control');
 
 // var resistanceControl = new L.Control.LayersCustom(null, {
@@ -612,3 +711,4 @@ var populationDensityControl = new L.Control.LayersCustom(null, {
     "Population Density (2020)": populationDensityLayer
 }, { collapsed: false, }).addTo(map);
 populationDensityControl.getContainer().classList.add('additional-layers-control');
+
